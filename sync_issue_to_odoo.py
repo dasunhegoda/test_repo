@@ -2,8 +2,12 @@ import xmlrpc.client
 import os
 import sys
 
-# Odoo credentials and URL setup
+# Ensure that the URL starts with http:// or https://
 url = os.getenv('ODOO_URL')
+if not url.startswith('http://') and not url.startswith('https://'):
+    print("Error: ODOO_URL should start with http:// or https://")
+    sys.exit(1)
+
 db = os.getenv('ODOO_DB')
 username = os.getenv('ODOO_USERNAME')  # The username used to login to Odoo
 password = os.getenv('ODOO_PASSWORD')  # The password used to login to Odoo
