@@ -16,10 +16,6 @@ jobs:
       with:
         python-version: '3.8'
     
-    - name: Install Python dependencies
-      run: |
-        pip install xmlrpc.client
-    
     - name: Sync Issue to Odoo
       env:
         ODOO_URL: ${{ secrets.ODOO_URL }}
