@@ -15,10 +15,9 @@ jobs:
       env:
         ODOO_API_TOKEN: aacf1b8068491b974fcd1191cd80d1524491dd97
         ODOO_URL: 'https://newlogicproj.odoo.com'
-        ODOO_DB: 'newlogicproj' # Replace with your Odoo database name
       run: |
         echo "Syncing issue to Odoo..."
         curl -X POST -H "Content-Type: application/json" \
              -H "Authorization: Bearer $ODOO_API_TOKEN" \
-             -d '{"model": "project.task", "args": [{"name": "${{ github.event.issue.title }}", "description": "${{ github.event.issue.body }}", "project_id": 2}]}' \ # Replace project_id with your project ID
+             -d "{\"model\": \"project.task\", \"args\": [{\"name\": \"${{ github.event.issue.title }}\", \"description\": \"${{ github.event.issue.body }}\", \"project_id\": 2}]}" \
              "$ODOO_URL/api/create"
