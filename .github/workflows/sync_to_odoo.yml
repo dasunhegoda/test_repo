@@ -1,4 +1,4 @@
-name: Sync Issue to Odoo using Project Name
+name: Sync Issue to Odoo
 
 on:
   issues:
@@ -11,26 +11,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Get Project ID from Odoo
-      id: get_project_id
-      env:
-        ODOO_API_TOKEN: aacf1b8068491b974fcd1191cd80d1524491dd97
-        ODOO_URL: 'https://newlogicproj.odoo.com'
-        PROJECT_NAME: 'test_proj' # Replace with your actual project name
-      run: |
-        PROJECT_ID=$(curl -s -X GET -H "Content-Type: application/json" \
-          -H "Authorization: Bearer $ODOO_API_TOKEN" \
-          "$ODOO_URL/api/get_project_id?name=$PROJECT_NAME" | jq '.id')
-        echo "::set-output name=project_id::$PROJECT_ID"
-
     - name: Sync Issue to Odoo
       env:
         ODOO_API_TOKEN: aacf1b8068491b974fcd1191cd80d1524491dd97
         ODOO_URL: 'https://newlogicproj.odoo.com'
-        PROJECT_ID: ${{ steps.get_project_id.outputs.project_id }}
+        ODOO_DB: 'Your_Odoo_DB_Name' # Replace with your Odoo database name
       run: |
         echo "Syncing issue to Odoo..."
         curl -X POST -H "Content-Type: application/json" \
              -H "Authorization: Bearer $ODOO_API_TOKEN" \
-             -d '{"model": "project.task", "args": [{"name": "${{ github.event.issue.title }}", "description": "${{ github.event.issue.body }}", "project_id": $PROJECT_ID}]}' \
+             -d '{"model": "project.task", "args": [{"name": "${{ github.event.issue.title }}", "description": "${{ github.event.issue.body }}", "project_id": 2}]}' \ # Replace project_id with your project ID
              "$ODOO_URL/api/create"
