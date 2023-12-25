@@ -34,11 +34,12 @@ if not project_id:
     print("Project not found")
     sys.exit(1)
 
-# Create a task associated with the project
+# Create a task associated with the project, without an assignee
 task_id = models.execute_kw(db, uid, password, 'project.task', 'create', [{
     'name': issue_title,
     'description': issue_body,
     'project_id': project_id[0],  # Assuming the project ID is the first in the list
+    'user_id': False,  # No assignee
 }])
 
 print(f"Task created with ID: {task_id}")
