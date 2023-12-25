@@ -11,13 +11,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    
+    - name: Install Python dependencies
+      run: |
+        pip install xmlrpc.client
+    
     - name: Sync Issue to Odoo
       env:
-        ODOO_API_TOKEN: aacf1b8068491b974fcd1191cd80d1524491dd97
-        ODOO_URL: 'https://newlogicproj.odoo.com'
+        ODOO_URL: ${{ secrets.ODOO_URL }}
+        ODOO_DB: ${{ secrets.ODOO_DB }}
+        ODOO_USERNAME: ${{ secrets.ODOO_USERNAME }}
+        ODOO_PASSWORD: ${{ secrets.ODOO_PASSWORD }}
       run: |
-        echo "Syncing issue to Odoo..."
-        curl -X POST -H "Content-Type: application/json" \
-             -H "Authorization: Bearer $ODOO_API_TOKEN" \
-             -d "{\"model\": \"project.task\", \"args\": [{\"name\": \"${{ github.event.issue.title }}\", \"description\": \"${{ github.event.issue.body }}\", \"project_id\": 2}]}" \
-             "$ODOO_URL/api/create"
+        python ./sync_issue_to_odoo.py "${{ github.event.issue.title }}" "${{ github.event.issue.body }}"
