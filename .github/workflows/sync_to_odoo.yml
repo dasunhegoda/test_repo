@@ -15,7 +15,7 @@ jobs:
       env:
         ODOO_API_TOKEN: aacf1b8068491b974fcd1191cd80d1524491dd97
         ODOO_URL: 'https://newlogicproj.odoo.com'
-        ODOO_DB: 'Your_Odoo_DB_Name' # Replace with your Odoo database name
+        ODOO_DB: 'newlogicproj' # Replace with your Odoo database name
       run: |
         echo "Syncing issue to Odoo..."
         curl -X POST -H "Content-Type: application/json" \
