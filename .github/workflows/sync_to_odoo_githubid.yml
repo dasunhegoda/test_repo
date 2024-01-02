@@ -9,9 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        ref: 15.1.1-mono-repo  
+      uses: actions/checkout@v 
 
     - name: Set up Python
       uses: actions/setup-python@v2
